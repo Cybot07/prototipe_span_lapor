@@ -1,95 +1,70 @@
 const screens = [
-  {id:'dashboard', label:'Dashboard Pelapor', url:'lapor.go.id/dashboard'},
-  {id:'form', label:'Buat Laporan', url:'lapor.go.id/laporan/baru'},
-  {id:'status', label:'Status & Antrean', url:'lapor.go.id/laporan/A-042'},
-  {id:'notif', label:'Notifikasi', url:'lapor.go.id/notifikasi'},
-  {id:'admin', label:'Verifikasi Admin', url:'admin.lapor.go.id/verifikasi'},
-  {id:'petugas', label:'Dashboard Petugas', url:'instansi.lapor.go.id/tugas'}
+  {
+    id: "dashboard",
+    label: "Dashboard"
+  },
+  {
+    id: "form",
+    label: "Buat Laporan"
+  },
+  {
+    id: "status",
+    label: "Status"
+  },
+  {
+    id: "notif",
+    label: "Notifikasi"
+  },
+  {
+    id: "admin",
+    label: "Admin"
+  },
+  {
+    id: "petugas",
+    label: "Petugas"
+  }
 ];
 
-const nav = document.getElementById('nav');
+const nav = document.getElementById("nav");
 
-screens.forEach(s => {
-  const btn = document.createElement('button');
-  btn.textContent = s.label;
-  btn.dataset.id = s.id;
+screens.forEach(screen => {
 
-  btn.addEventListener('click', () => {
-    go(s.id);
-  });
+  const button = document.createElement("button");
 
-  nav.appendChild(btn);
+  button.textContent = screen.label;
+
+  button.onclick = () => {
+    go(screen.id);
+  };
+
+  button.dataset.id = screen.id;
+
+  nav.appendChild(button);
+
 });
 
 function go(id){
 
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
-
-  const activeScreen =
-      document.querySelector(`[data-screen="${id}"]`);
-
-  activeScreen.classList.add('active');
-
-  document.querySelectorAll('.nav-pills button')
-    .forEach(btn=>{
-      btn.classList.toggle(
-        'active',
-        btn.dataset.id === id
-      );
+  document.querySelectorAll(".screen")
+    .forEach(screen => {
+      screen.classList.remove("active");
     });
 
-  const current =
-      screens.find(x => x.id === id);
+  document.querySelector(
+    `[data-screen="${id}"]`
+  ).classList.add("active");
 
-  document.getElementById('frame-url')
-    .textContent = current.url;
-}
+  document.querySelectorAll("#nav button")
+    .forEach(btn => {
 
-/* Animasi angka statistik */
-window.addEventListener('load', () => {
+      btn.classList.remove("active");
 
-  document.querySelectorAll('.stat-card .num')
-  .forEach(el => {
-
-    const value = el.textContent.trim();
-
-    if(!/^\d+$/.test(value)) return;
-
-    let start = 0;
-
-    const end = parseInt(value);
-
-    const timer = setInterval(() => {
-
-      start++;
-
-      el.textContent = start;
-
-      if(start >= end){
-        clearInterval(timer);
+      if(btn.dataset.id === id){
+        btn.classList.add("active");
       }
 
-    }, 40);
+    });
 
-  });
+}
 
-});
-
-/* Simulasi notifikasi realtime */
-setInterval(() => {
-
-  const notifPage =
-    document.querySelector('[data-screen="notif"]');
-
-  if(!notifPage) return;
-
-  document.title =
-    document.title.includes('🔔')
-      ? 'Prototipe SPAN Lapor+'
-      : '🔔 Prototipe SPAN Lapor+';
-
-}, 3000);
-
-go('dashboard');
+go("dashboard");
