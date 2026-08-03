@@ -1,420 +1,97 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<title>Prototipe SPAN Lapor+ </title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy:#0B2545;
-    --steel:#13315C;
-    --amber:#E8871E;
-    --green:#1E7A46;
-    --red:#B33A3A;
-    --bg:#F4F1EA;
-    --card:#FFFFFF;
-    --ink:#141A22;
-    --muted:#5C6470;
-    --line:#E2DDD1;
-    --radius:14px;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
-  h1,h2,h3,.display{font-family:'Sora',sans-serif;}
-  .mono{font-family:'JetBrains Mono',monospace;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  .app-shell{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+    <title>SPAN Lapor+</title>
 
-  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
-  .brand{display:flex;align-items:center;gap:12px;}
-  .brand .mark{width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Sora';font-weight:800;font-size:16px;}
-  .brand .name{font-family:'Sora';font-weight:700;font-size:18px;color:var(--navy);}
-  .brand .sub{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
+    <!-- Google Fonts -->
+    fonts.googleapis.com">
+    ://fonts.gstatic.com" crossorigin>
 
-  .nav-pills{display:flex;gap:6px;flex-wrap:wrap;background:#EAE5D8;padding:6px;border-radius:999px;}
-  .nav-pills button{
-    border:none;background:transparent;padding:9px 16px;border-radius:999px;font-family:'Inter';font-weight:600;
-    font-size:12.5px;color:var(--muted);cursor:pointer;transition:.18s;white-space:nowrap;
-  }
-  .nav-pills button.active{background:var(--navy);color:#fff;box-shadow:0 3px 10px rgba(11,37,69,.25);}
-  .nav-pills button:hover:not(.active){color:var(--navy);}
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
-  .frame{
-    background:var(--card);border-radius:20px;border:1px solid var(--line);
-    box-shadow:0 18px 44px -22px rgba(11,37,69,.35);min-height:600px;overflow:hidden;
-  }
-  .frame-header{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--line);background:#FBFAF7;}
-  .dot{width:9px;height:9px;border-radius:50%;}
-  .dot.r{background:#E5605A}.dot.y{background:#F2B84B}.dot.g{background:#3FAE6E}
-  .frame-title{margin-left:10px;font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono';}
-
-  .screen{display:none;padding:28px 34px 34px;}
-  .screen.active{display:block;animation:fade .25s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-
-  .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px;}
-  .screen h2{font-size:24px;margin:0 0 4px;color:var(--navy);}
-  .screen .desc{color:var(--muted);font-size:13.5px;margin-bottom:22px;max-width:640px;}
-
-  .grid{display:grid;gap:16px;}
-  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
-  .grid.cols-2{grid-template-columns:2fr 1fr;}
-
-  .stat-card{background:#FBFAF7;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
-  .stat-card .num{font-family:'Sora';font-weight:800;font-size:26px;color:var(--navy);}
-  .stat-card .lbl{font-size:12px;color:var(--muted);margin-top:2px;}
-
-  .card{background:#FBFAF7;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;}
-  .card-row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;}
-  .card h4{margin:0 0 4px;font-size:14.5px;}
-  .card .meta{font-size:12px;color:var(--muted);}
-
-  .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.02em;}
-  .badge.wait{background:#FDEEDD;color:var(--amber);}
-  .badge.proc{background:#E4ECF6;color:var(--steel);}
-  .badge.done{background:#E3F1E8;color:var(--green);}
-  .badge.urgent{background:#F8E4E2;color:var(--red);}
-
-  label{display:block;font-size:12.5px;font-weight:600;color:var(--steel);margin-bottom:6px;}
-  select, textarea, input{
-    width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-family:'Inter';
-    font-size:13.5px;background:#fff;color:var(--ink);margin-bottom:16px;
-  }
-  select:focus, textarea:focus, input:focus{outline:none;border-color:var(--navy);}
-  textarea{resize:vertical;min-height:90px;}
-
-  .btn{
-    border:none;border-radius:10px;padding:11px 20px;font-family:'Inter';font-weight:700;font-size:13.5px;
-    cursor:pointer;transition:.15s;
-  }
-  .btn.primary{background:var(--navy);color:#fff;}
-  .btn.primary:hover{background:var(--steel);}
-  .btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--steel);}
-
-  .queue-ticket{
-    background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;border-radius:16px;padding:22px 24px;
-    display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
-  }
-  .queue-ticket .num{font-family:'JetBrains Mono';font-size:30px;font-weight:700;}
-  .queue-ticket .lbl{font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:.08em;}
-
-  .timeline{border-left:2px solid var(--line);margin-left:6px;padding-left:20px;}
-  .tl-item{position:relative;padding-bottom:22px;}
-  .tl-item::before{content:"";position:absolute;left:-26px;top:2px;width:11px;height:11px;border-radius:50%;background:var(--navy);border:2px solid #fff;box-shadow:0 0 0 2px var(--navy);}
-  .tl-item.done::before{background:var(--green);box-shadow:0 0 0 2px var(--green);}
-  .tl-item .t{font-size:13px;font-weight:700;}
-  .tl-item .d{font-size:11.5px;color:var(--muted);}
-
-  .notif-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);}
-  .notif-item:last-child{border-bottom:none;}
-  .notif-icon{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;}
-  .notif-icon.push{background:#E4ECF6;}
-  .notif-icon.wa{background:#E3F1E8;}
-  .notif-icon.mail{background:#FDEEDD;}
-  .notif-item .t{font-size:13.5px;font-weight:600;}
-  .notif-item .d{font-size:12px;color:var(--muted);margin-top:2px;}
-  .notif-item .time{font-size:11px;color:var(--muted);white-space:nowrap;}
-
-  table{width:100%;border-collapse:collapse;font-size:13px;}
-  th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1.5px solid var(--line);}
-  td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;}
-  tr:last-child td{border-bottom:none;}
-
-  .sentiment-bar{height:8px;border-radius:6px;background:#EFEBE0;overflow:hidden;margin-top:6px;}
-  .sentiment-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--red));}
-
-  .footnote{margin-top:22px;font-size:11.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px;}
-</style>
+    <!-- CSS -->
+    styles.css
 </head>
+
 <body>
-<div class="app-shell">
 
-  <div class="topbar">
-    <div class="brand">
-      <div class="mark">SL+</div>
-      <div>
-        <div class="name">SPAN Lapor+</div>
-        <div class="sub">Prototipe Perbaikan Sistem</div>
-      </div>
-    </div>
-    <div class="nav-pills" id="nav"></div>
-  </div>
+    <div class="app-shell">
 
-  <div class="frame">
-    <div class="frame-header">
-      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-      <span class="frame-title" id="frame-url">lapor.go.id/dashboard</span>
-    </div>
+        <div class="topbar">
+            <div class="brand">
+                <div class="mark">SL+</div>
+                <div>
+                    <div class="name">SPAN Lapor+</div>
+                    <div class="sub">Prototipe Perbaikan Sistem</div>
+                </div>
+            </div>
 
-    <!-- SCREEN 1: Dashboard Pelapor -->
-    <div class="screen active" data-screen="dashboard">
-      <div class="eyebrow">Beranda Pelapor</div>
-      <h2>Selamat datang, Budi Santoso</h2>
-      <div class="desc">Pantau seluruh laporan yang pernah Anda ajukan dan buat laporan baru dari satu tempat.</div>
-
-      <div class="grid cols-3" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="num">3</div><div class="lbl">Laporan aktif</div></div>
-        <div class="stat-card"><div class="num">12</div><div class="lbl">Laporan selesai</div></div>
-        <div class="stat-card"><div class="num">A-042</div><div class="lbl">Nomor antrean terbaru</div></div>
-      </div>
-
-      <div class="card-row" style="margin-bottom:14px;">
-        <h3 style="margin:0;font-size:15px;">Laporan Anda</h3>
-        <button class="btn primary" onclick="go('form')">+ Buat Laporan Baru</button>
-      </div>
-
-      <div class="card">
-        <div class="card-row">
-          <div>
-            <h4>Lampu jalan mati di Jl. Merdeka No. 12</h4>
-            <div class="meta">Kategori: Infrastruktur &gt; Penerangan Jalan · No. Antrean A-042</div>
-          </div>
-          <span class="badge proc">Diproses Instansi</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-row">
-          <div>
-            <h4>Kebocoran pipa air PDAM di RT 03</h4>
-            <div class="meta">Kategori: Utilitas &gt; Air Bersih · No. Antrean A-039</div>
-          </div>
-          <span class="badge urgent">Darurat — Didisposisikan</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-row">
-          <div>
-            <h4>Permohonan perbaikan trotoar rusak</h4>
-            <div class="meta">Kategori: Infrastruktur &gt; Trotoar &amp; Jalan · No. Antrean A-031</div>
-          </div>
-          <span class="badge done">Selesai</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- SCREEN 2: Form Buat Laporan -->
-    <div class="screen" data-screen="form">
-      <div class="eyebrow">UC2 · UC3 — Buat Laporan</div>
-      <h2>Buat Laporan Baru</h2>
-      <div class="desc">Pilih kategori secara bertahap agar laporan Anda diteruskan ke instansi yang tepat.</div>
-
-      <div class="grid cols-2">
-        <div>
-          <label>Kategori Utama</label>
-          <select onchange="document.getElementById('sub').disabled=false">
-            <option>Infrastruktur</option>
-            <option>Utilitas (Air, Listrik, Gas)</option>
-            <option>Kesehatan</option>
-            <option>Pendidikan</option>
-          </select>
-
-          <label>Sub-Kategori</label>
-          <select id="sub">
-            <option>Penerangan Jalan Umum</option>
-            <option>Jalan Rusak</option>
-            <option>Trotoar &amp; Jalur Pejalan Kaki</option>
-            <option>Drainase / Saluran Air</option>
-          </select>
-
-          <label>Deskripsi Laporan</label>
-          <textarea placeholder="Jelaskan detail kejadian, lokasi, dan kondisi saat ini...">Lampu jalan di depan Jl. Merdeka No. 12 sudah mati selama 5 hari, membuat jalan gelap dan rawan kecelakaan pada malam hari.</textarea>
-
-          <label>Lampiran Foto/Video</label>
-          <input type="file" style="padding:8px;">
-
-          <div style="display:flex;gap:10px;">
-            <button class="btn primary" onclick="go('status')">Kirim Laporan</button>
-            <button class="btn ghost" onclick="go('dashboard')">Batal</button>
-          </div>
+            <div class="nav-pills" id="nav"></div>
         </div>
 
-        <div>
-          <div class="card">
-            <div class="meta" style="margin-bottom:8px;">PRATINJAU ANALISIS AI (real-time)</div>
-            <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px;">Perkiraan tingkat urgensi</div>
-            <span class="badge urgent">Penting</span>
-            <div class="sentiment-bar"><div class="sentiment-fill" style="width:68%"></div></div>
-            <div class="meta" style="margin-top:14px;">Estimasi instansi tujuan</div>
-            <div style="font-size:13px;font-weight:600;">Dinas Perhubungan &amp; Penerangan Jalan</div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <div class="frame">
 
-    <!-- SCREEN 3: Status & Antrean -->
-    <div class="screen" data-screen="status">
-      <div class="eyebrow">UC4 · UC5 — Status &amp; Nomor Antrean</div>
-      <h2>Status Laporan</h2>
-      <div class="desc">Laporan: Lampu jalan mati di Jl. Merdeka No. 12</div>
+            <div class="frame-header">
+                <span class="dot r"></span>
+                <span class="dot y"></span>
+                <span class="dot g"></span>
 
-      <div class="queue-ticket">
-        <div>
-          <div class="lbl">Nomor Antrean</div>
-          <div class="num">A-042</div>
-        </div>
-        <div style="text-align:right;">
-          <div class="lbl">Estimasi Selesai</div>
-          <div style="font-size:18px;font-weight:700;">2–3 Hari Kerja</div>
-        </div>
-      </div>
+                <span class="frame-title" id="frame-url">
+                    lapor.go.id/dashboard
+                </span>
+            </div>
 
-      <div class="timeline">
-        <div class="tl-item done"><div class="t">Laporan Diterima</div><div class="d">28 Jul 2026, 08:14 — Sistem menyimpan laporan &amp; memberi nomor antrean</div></div>
-        <div class="tl-item done"><div class="t">Diverifikasi &amp; Dianalisis (NLP)</div><div class="d">28 Jul 2026, 08:16 — Skala urgensi: Penting</div></div>
-        <div class="tl-item done"><div class="t">Didisposisikan Otomatis</div><div class="d">28 Jul 2026, 08:16 — Diteruskan ke Dinas Perhubungan</div></div>
-        <div class="tl-item"><div class="t">Diproses Instansi</div><div class="d">Sedang ditindaklanjuti oleh petugas lapangan</div></div>
-        <div class="tl-item" style="opacity:.4;"><div class="t">Selesai</div><div class="d">Menunggu konfirmasi penyelesaian</div></div>
-      </div>
-    </div>
+            <!-- DASHBOARD PELAPOR -->
+            <div class="screen active" data-screen="dashboard">
 
-    <!-- SCREEN 4: Notifikasi -->
-    <div class="screen" data-screen="notif">
-      <div class="eyebrow">UC5 — Pusat Notifikasi</div>
-      <h2>Notifikasi</h2>
-      <div class="desc">Pemberitahuan real-time dikirim melalui push notification, e-mail, dan WhatsApp.</div>
+                <div class="eyebrow">Beranda Pelapor</div>
+                <h2>Selamat Datang, Budi Santoso</h2>
 
-      <div class="card" style="padding:6px 20px;">
-        <div class="notif-item">
-          <div class="notif-icon wa">🟢</div>
-          <div style="flex:1;">
-            <div class="t">WhatsApp: Laporan A-042 sedang diproses</div>
-            <div class="d">Dinas Perhubungan telah menerima laporan Anda dan sedang menindaklanjuti.</div>
-          </div>
-          <div class="time">2 mnt lalu</div>
-        </div>
-        <div class="notif-item">
-          <div class="notif-icon push">🔔</div>
-          <div style="flex:1;">
-            <div class="t">Push: Laporan A-042 didisposisikan</div>
-            <div class="d">Sistem otomatis meneruskan laporan Anda ke instansi terkait.</div>
-          </div>
-          <div class="time">18 mnt lalu</div>
-        </div>
-        <div class="notif-item">
-          <div class="notif-icon mail">✉️</div>
-          <div style="flex:1;">
-            <div class="t">Email: Laporan A-042 diterima</div>
-            <div class="d">Nomor antrean Anda A-042, estimasi selesai 2–3 hari kerja.</div>
-          </div>
-          <div class="time">20 mnt lalu</div>
-        </div>
-      </div>
-    </div>
+                <div class="desc">
+                    Pantau seluruh laporan yang pernah Anda ajukan dan buat laporan baru dari satu tempat.
+                </div>
 
-    <!-- SCREEN 5: Dashboard Admin Verifikasi -->
-    <div class="screen" data-screen="admin">
-      <div class="eyebrow">UC6 · UC7 · UC9 — Verifikasi &amp; Analisis NLP</div>
-      <h2>Dashboard Verifikasi Admin</h2>
-      <div class="desc">Laporan baru dianalisis otomatis oleh AI/NLP sebelum diverifikasi admin.</div>
+                <div class="grid cols-3" style="margin-bottom:20px;">
+                    <div class="stat-card">
+                        <div class="num">3</div>
+                        <div class="lbl">Laporan Aktif</div>
+                    </div>
 
-      <table>
-        <thead><tr><th>No. Antrean</th><th>Kategori</th><th>Skor Urgensi (NLP)</th><th>Status</th><th></th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="mono">A-042</td>
-            <td>Infrastruktur &gt; Penerangan</td>
-            <td><span class="badge urgent">Penting (0.68)</span></td>
-            <td><span class="badge wait">Menunggu Verifikasi</span></td>
-            <td><button class="btn ghost" style="padding:6px 12px;font-size:11.5px;">Verifikasi</button></td>
-          </tr>
-          <tr>
-            <td class="mono">A-039</td>
-            <td>Utilitas &gt; Air Bersih</td>
-            <td><span class="badge urgent">Darurat (0.92)</span></td>
-            <td><span class="badge proc">Didisposisikan</span></td>
-            <td><button class="btn ghost" style="padding:6px 12px;font-size:11.5px;">Lihat</button></td>
-          </tr>
-          <tr>
-            <td class="mono">A-038</td>
-            <td>Pendidikan &gt; Sarana</td>
-            <td><span class="badge proc">Normal (0.21)</span></td>
-            <td><span class="badge wait">Menunggu Verifikasi</span></td>
-            <td><button class="btn ghost" style="padding:6px 12px;font-size:11.5px;">Verifikasi</button></td>
-          </tr>
-        </tbody>
-      </table>
+                    <div class="stat-card">
+                        <div class="num">12</div>
+                        <div class="lbl">Laporan Selesai</div>
+                    </div>
 
-      <div class="card" style="margin-top:18px;">
-        <div class="meta" style="margin-bottom:8px;">DETAIL ANALISIS NLP — Laporan A-042</div>
-        <div style="font-size:12.5px;color:var(--muted);">Teks setelah cleaning &amp; stemming (Sastrawi)</div>
-        <div class="mono" style="font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;margin:6px 0 14px;">
-          "lampu jalan mati lima hari gelap rawan celaka malam"
-        </div>
-        <div style="display:flex;gap:24px;">
-          <div><div class="meta">Sentimen</div><div style="font-weight:700;">Negatif (−0.61)</div></div>
-          <div><div class="meta">Skala Urgensi</div><div style="font-weight:700;color:var(--amber);">Penting</div></div>
-          <div><div class="meta">Rekomendasi Instansi</div><div style="font-weight:700;">Dishub &amp; Penerangan Jalan</div></div>
-        </div>
-      </div>
-    </div>
+                    <div class="stat-card">
+                        <div class="num">A-042</div>
+                        <div class="lbl">Nomor Antrean Terbaru</div>
+                    </div>
+                </div>
 
-    <!-- SCREEN 6: Dashboard Petugas Instansi -->
-    <div class="screen" data-screen="petugas">
-      <div class="eyebrow">UC11 · UC12 · UC13 — Tindak Lanjut &amp; Kinerja</div>
-      <h2>Dashboard Petugas Instansi</h2>
-      <div class="desc">Dinas Perhubungan &amp; Penerangan Jalan — Beban kerja &amp; laporan masuk.</div>
+                <div class="card-row" style="margin-bottom:14px;">
+                    <h3 style="margin:0;font-size:15px;">
+                        Laporan Anda
+                    </h3>
 
-      <div class="grid cols-3" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="num">14</div><div class="lbl">Laporan aktif</div></div>
-        <div class="stat-card"><div class="num">2.4 hr</div><div class="lbl">Rata-rata penyelesaian</div></div>
-        <div class="stat-card" style="border-color:var(--red);"><div class="num" style="color:var(--red);">1</div><div class="lbl">Melewati SLA (eskalasi)</div></div>
-      </div>
+                    <button class="btn primary" onclick="go('form')">
+                        + Buat Laporan Baru
+                    </button>
+                </div>
 
-      <div class="card">
-        <div class="card-row">
-          <div>
-            <h4>A-042 · Lampu jalan mati, Jl. Merdeka No. 12</h4>
-            <div class="meta">Urgensi: Penting · Masuk 08:16 · SLA 3 hari</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select style="margin:0;width:auto;padding:8px 10px;">
-              <option>Proses</option><option>Selesai</option><option>Ditolak</option>
-            </select>
-            <button class="btn primary" style="padding:8px 14px;">Update</button>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="border-color:var(--red);">
-        <div class="card-row">
-          <div>
-            <h4>A-025 · Rambu lalu lintas rusak, Simpang Kalimalang</h4>
-            <div class="meta">Urgensi: Darurat · Masuk 4 hari lalu · <b style="color:var(--red);">SLA Terlewati</b></div>
-          </div>
-          <button class="btn ghost" style="border-color:var(--red);color:var(--red);">Eskalasi ke Supervisor</button>
-        </div>
-      </div>
-    </div>
+                <div class="card">
+                    <div class="card-row">
+                        <div>
+                            <h4>Lampu jalan mati di Jl. Merdeka No.12</h4>
+                            <div class="meta">
+                                Infrastruktur > Penerangan Jalan · No. Antrean A‑042
+                            </div>
+                        </div>
 
-  </div>
-
-  <div class="footnote">Prototipe interaktif — klik menu di kanan atas untuk berpindah antar layar. Dibuat sebagai acuan visual; dapat direplikasi ke Figma untuk kebutuhan desain lebih lanjut.</div>
-</div>
-
-<script>
-  const screens = [
-    {id:'dashboard', label:'Dashboard Pelapor', url:'lapor.go.id/dashboard'},
-    {id:'form', label:'Buat Laporan', url:'lapor.go.id/laporan/baru'},
-    {id:'status', label:'Status & Antrean', url:'lapor.go.id/laporan/A-042'},
-    {id:'notif', label:'Notifikasi', url:'lapor.go.id/notifikasi'},
-    {id:'admin', label:'Verifikasi Admin', url:'admin.lapor.go.id/verifikasi'},
-    {id:'petugas', label:'Dashboard Petugas', url:'instansi.lapor.go.id/tugas'},
-  ];
-  const nav = document.getElementById('nav');
-  screens.forEach(s=>{
-    const b = document.createElement('button');
-    b.textContent = s.label;
-    b.onclick = ()=>go(s.id);
-    b.dataset.id = s.id;
-    nav.appendChild(b);
-  });
-  function go(id){
-    document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active', el.dataset.screen===id));
-    document.querySelectorAll('.nav-pills button').forEach(b=>b.classList.toggle('active', b.dataset.id===id));
-    const s = screens.find(x=>x.id===id);
-    document.getElementById('frame-url').textContent = s.url;
-  }
-  go('dashboard');
-</script>
-</body>
-</html>
+                        <span class="badge proc">
+                            Diproses Instansi
+                        </span>
+            
