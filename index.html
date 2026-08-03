@@ -1,97 +1,169 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SPAN Lapor+</title>
+  <title>SPAN Lapor+</title>
 
-    <!-- Google Fonts -->
-    fonts.googleapis.com">
-    ://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
-    styles.css
+  styles.css
 </head>
 
 <body>
 
-    <div class="app-shell">
+<div class="app-shell">
 
-        <div class="topbar">
-            <div class="brand">
-                <div class="mark">SL+</div>
-                <div>
-                    <div class="name">SPAN Lapor+</div>
-                    <div class="sub">Prototipe Perbaikan Sistem</div>
-                </div>
-            </div>
+  <header class="topbar">
 
-            <div class="nav-pills" id="nav"></div>
+    <div class="brand">
+
+      <div class="logo">
+        SL+
+      </div>
+
+      <div>
+        <h1>SPAN Lapor+</h1>
+        <p>Prototipe Sistem Pelaporan Masyarakat</p>
+      </div>
+
+    </div>
+
+    <nav id="nav"></nav>
+
+  </header>
+
+  <main class="frame">
+
+    <!-- DASHBOARD -->
+    <section class="screen active" data-screen="dashboard">
+
+      <h2>Dashboard Pelapor</h2>
+
+      <div class="stats">
+
+        <div class="card">
+          <span class="number">3</span>
+          <span>Laporan Aktif</span>
         </div>
 
-        <div class="frame">
+        <div class="card">
+          <span class="number">12</span>
+          <span>Laporan Selesai</span>
+        </div>
 
-            <div class="frame-header">
-                <span class="dot r"></span>
-                <span class="dot y"></span>
-                <span class="dot g"></span>
+        <div class="card">
+          <span class="number">A-042</span>
+          <span>Nomor Antrean</span>
+        </div>
 
-                <span class="frame-title" id="frame-url">
-                    lapor.go.id/dashboard
-                </span>
-            </div>
+      </div>
 
-            <!-- DASHBOARD PELAPOR -->
-            <div class="screen active" data-screen="dashboard">
+      <button class="btn primary" onclick="go('form')">
+        Buat Laporan Baru
+      </button>
 
-                <div class="eyebrow">Beranda Pelapor</div>
-                <h2>Selamat Datang, Budi Santoso</h2>
+    </section>
 
-                <div class="desc">
-                    Pantau seluruh laporan yang pernah Anda ajukan dan buat laporan baru dari satu tempat.
-                </div>
+    <!-- FORM -->
+    <section class="screen" data-screen="form">
 
-                <div class="grid cols-3" style="margin-bottom:20px;">
-                    <div class="stat-card">
-                        <div class="num">3</div>
-                        <div class="lbl">Laporan Aktif</div>
-                    </div>
+      <h2>Buat Laporan</h2>
 
-                    <div class="stat-card">
-                        <div class="num">12</div>
-                        <div class="lbl">Laporan Selesai</div>
-                    </div>
+      <label>Kategori</label>
 
-                    <div class="stat-card">
-                        <div class="num">A-042</div>
-                        <div class="lbl">Nomor Antrean Terbaru</div>
-                    </div>
-                </div>
+      <select>
+        <option>Infrastruktur</option>
+        <option>Kesehatan</option>
+        <option>Pendidikan</option>
+        <option>Utilitas</option>
+      </select>
 
-                <div class="card-row" style="margin-bottom:14px;">
-                    <h3 style="margin:0;font-size:15px;">
-                        Laporan Anda
-                    </h3>
+      <label>Deskripsi</label>
 
-                    <button class="btn primary" onclick="go('form')">
-                        + Buat Laporan Baru
-                    </button>
-                </div>
+      <textarea></textarea>
 
-                <div class="card">
-                    <div class="card-row">
-                        <div>
-                            <h4>Lampu jalan mati di Jl. Merdeka No.12</h4>
-                            <div class="meta">
-                                Infrastruktur > Penerangan Jalan · No. Antrean A‑042
-                            </div>
-                        </div>
+      <button class="btn primary" onclick="go('status')">
+        Kirim Laporan
+      </button>
 
-                        <span class="badge proc">
-                            Diproses Instansi
-                        </span>
-            
+    </section>
+
+    <!-- STATUS -->
+    <section class="screen" data-screen="status">
+
+      <h2>Status Laporan</h2>
+
+      <div class="ticket">
+
+        <div>
+          <small>Nomor Antrean</small>
+          <h3>A-042</h3>
+        </div>
+
+        <div>
+          <small>Estimasi</small>
+          <h3>2-3 Hari</h3>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- NOTIFIKASI -->
+    <section class="screen" data-screen="notif">
+
+      <h2>Notifikasi</h2>
+
+      <div class="card">
+        Laporan A-042 sedang diproses.
+      </div>
+
+    </section>
+
+    <!-- ADMIN -->
+    <section class="screen" data-screen="admin">
+
+      <h2>Dashboard Admin</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nomor</th>
+            <th>Kategori</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>A-042</td>
+            <td>Infrastruktur</td>
+            <td>Menunggu Verifikasi</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+    <!-- PETUGAS -->
+    <section class="screen" data-screen="petugas">
+
+      <h2>Dashboard Petugas</h2>
+
+      <div class="card">
+        14 laporan aktif
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+script.jsscript>
+
+</body>
+</html>
